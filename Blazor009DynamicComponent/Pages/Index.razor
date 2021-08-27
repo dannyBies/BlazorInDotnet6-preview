@@ -1,0 +1,27 @@
+﻿@page "/"
+@inject IConfiguration Configuration
+
+<DynamicComponent @ref="dc" Type="@type" Parameters="@typeParameters" />
+<button @onclick="() => UpdateMeter()">Generate new meter value</button>
+
+@code {
+    private Type? type;
+    private IDictionary<string, object>? typeParameters;
+    private DynamicComponent? dc;
+
+    private void UpdateMeter()
+    {
+        (dc?.Instance as IMeter)?.UpdateValue(Random.Shared.Next(0, 100).ToString());
+    }
+
+
+	protected override void OnInitialized()
+    {
+        var dashboardConfig = Configuration.GetRequiredSection("VisibleMeterType");
+        type = Type.GetType($"Blazor009DynamicComponent.Shared.{dashboardConfig.GetValue<string>("type")}");
+        typeParameters = dashboardConfig
+            .GetSection("parameters")
+            .GetChildren()
+            .ToDictionary(p => p.Key, p => p.Get<object>());
+    }
+}

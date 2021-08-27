@@ -1,0 +1,14 @@
+﻿@inherits ErrorBoundary
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else if (ErrorContent is not null)
+{
+    @ErrorContent(CurrentException)
+}
+else
+{
+    <div class="my-custom-error-ui">Oh no, there was a problem!</div>
+}

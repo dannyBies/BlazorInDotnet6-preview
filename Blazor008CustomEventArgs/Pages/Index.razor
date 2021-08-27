@@ -1,0 +1,22 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+<label>
+    Try pasting into the following text box:
+    <input @oncustompaste="HandleCustomPaste" />
+</label>
+
+<p>
+    @message
+</p>
+
+@code {
+    private string message;
+
+    private void HandleCustomPaste(CustomPasteEventArgs eventArgs)
+    {
+        message = $"At {eventArgs.EventTimestamp.ToShortTimeString()}, " +
+            $"you pasted: {eventArgs.PastedData}";
+    }
+}

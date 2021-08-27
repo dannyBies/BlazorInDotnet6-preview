@@ -1,0 +1,15 @@
+﻿@implements IMeter
+
+<h3>Electricity Meter</h3>
+<p>Electricity bill: @(ElectricityBill ?? "0")</p>
+
+@code {
+	[Parameter]
+	public string? ElectricityBill { get; set; }
+
+	public void UpdateValue(string newValue)
+	{
+		ElectricityBill = newValue;
+		StateHasChanged();
+	}
+}
